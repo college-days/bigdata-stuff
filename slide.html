@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>mongo slide</title>
+
+        <meta name="description" content="Yet another Arduino Synthesizer">
+        <meta name="author" content="Mort Yao">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <link rel="stylesheet" href="plugins/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="plugins/reveal.js/css/theme/sky.css" id="theme">
+
+        <style>
+            img.board {
+                max-width: 700px;
+                max-height: 700px;
+                overflow: hidden;
+            }
+        </style>
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="plugins/reveal.js/lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="plugins/reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="plugins/reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+              processEscapes: true
+            }
+          });
+        </script>
+
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+              tex2jax: {
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+              }
+            });
+        </script>
+
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Queue(function() {
+                var all = MathJax.Hub.getAllJax(), i;
+                for(i=0; i < all.length; i += 1) {
+                    all[i].SourceElement().parentNode.className += ' has-jax';
+                }
+            });
+        </script>
+
+        <script type="text/javascript"
+            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h2>
+                        <br/>
+                        <br/>
+                        <br/>
+                        bigdata&nbsp;&nbsp;algorithms
+                    </h2>
+                </section>
+                
+                <section>
+                    <h1>
+                        <br/>
+                        solutions
+                    </h1>
+                    <ul>
+                      <li>classification</li>
+                      <br/>
+                      <li>regression</li>
+                      <br/>
+                      <li>clustering</li>
+                      </br>
+                      <li>recommendation model</li>
+                   </ul>
+                </section>
+
+                <section>
+                    <h1>
+                        classification
+                    </h1>
+                    <ul>
+                      <li>bayes classification</li>
+                      <br/>
+                      <li>knn classification</li>
+                      <br/>
+                      <li>logistic regression</li>
+                      </br>
+                      <li>gaussian discriminant analysis</li>
+                      <br/>
+                      <li>ann</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h1>
+                        bayes classification
+                    </h1>
+                    <br/>
+                    $$P(A|B) = \frac{P(B|A)P(A)}{P(B)}$$
+                </section>
+
+                <section>
+                    for example $$y \in \left \{ 0, 1 \right \}$$ $$x \in \left \{ f1, f2, f3 \right \}$$ $$f1 \in \left \{ f11, f12 \right \}$$ $$f2 \in \left \{ f21, f22 \right \}$$ $$f3 \in \left \{ f31, f32 \right \}$$
+                    and have a sample sets $$\left \{ [x_{1}, y_{1}], \cdots [x_{n}, y_{n}] \right \}$$
+                    so when a new sample X occured how could determine it's category Y
+                </section>
+                
+                <section>
+                    $$P(y|x) = P(y|f1, f2, f3) = \frac{P(f1, f2, f3|y)P(y)}{P(f1, f2, f3)}$$
+                    <br/>
+                    $$P(y=1;f1, f2, f3) + P(y=0;f1, f2, f3) = 1$$
+                    <br/>
+                    $$P(f1, f2, f3) = \sum_{i=1}^{n}P(f1, f2, f3|y_{i})P(y_{i})$$
+                    <br/>
+                    $$P(f1, f2, f3|y) = P(f1|y) \times P(f2|y) \times P(f3|y)$$
+                </section>
+
+                <section>
+                    <h1>
+                        knn classification
+                    </h1>
+                    <br/>
+                    <img width="280" height="280" class="board" src="./images/mongo/knn.svg.png" />
+                </section>
+
+                <section>
+                    <h1>
+                        logistic regression
+                    </h1>
+                    <br/>
+                    <img width="280" height="280" class="board" src="./images/mongo/logistic.png" />
+                </section>
+
+                <section>
+                    $$P(y|x;\theta) = (h_{\theta}(x))^{y} \cdot (1-h_{\theta}(x))^{(1-y)}$$
+                    <br/>
+                    $$J(\theta) = \frac{1}{m} \sum_{i=1}^{m}Cost(h_{\theta}(x^{(i)}), y^{(i)})$$
+                    <br/>
+                    $$-\frac{1}{m}[\sum_{i=1}^{m}y^{(i)} \cdot log(h(x^{(i)})) + (1-y^{(i)}) \cdot log(1-h(x^{(i)}))]$$
+                    <br/>
+                    $$\theta_{j} := \theta_{j} - \alpha\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})x_{j}^{(i)}, \; (j = 0 \; ... \; n)$$
+                </section>
+
+                <section>
+                    <h1>
+                        GDA
+                    </h1>
+                    <br/>
+                    <img width="280" height="280" class="board" src="./images/mongo/gda.png" />
+                </section>
+
+                <section>
+                        $$p(y) = \phi^{y}(1-\phi)^{1-y}$$
+                        <br/>
+                        $$\begin{align*}
+                        &p(x|y = 0) \\ & = \frac{1}{(2\pi)^{\frac{n}{2}}|\Sigma|^{\frac{1}{2}}}exp\left ( -\frac{1}{2}(x-\mu_{0})^{T} \Sigma^{-1} (x-\mu_{0}) \right ) \\
+                        &p(x|y = 1) \\ & = \frac{1}{(2\pi)^{\frac{n}{2}}|\Sigma|^{\frac{1}{2}}}exp\left ( -\frac{1}{2}(x-\mu_{1})^{T} \Sigma^{-1} (x-\mu_{1}) \right )
+                        \end{align*}$$
+                </section>
+
+                <section>
+                    $$\begin{align*}
+                    & \phi = \frac{1}{m}\sum_{1}^{m}1 \left \{ y_{i}=1 \right \} \\
+                    & \mu_{0} = \frac{\sum_{i}^{m}1 \left \{ y_{i}=0 \right \}x_{i}}{\sum_{i}^{m}1\left \{ y_{i}=0 \right \}} \\
+                    & \mu_{1} = \frac{\sum_{i}^{m}1 \left \{ y_{i}=1 \right \}x_{i}}{\sum_{i}^{m}1\left \{ y_{i}=1 \right \}} \\
+                    & \Sigma = \frac{1}{m} \sum_{i=1}^{m} (x_{i} - \mu_{y_{i}})(x_{i} - \mu_{y_{i}})^{T}
+                    \end{align*}$$
+                </section>
+
+                <section>
+                    <h1>
+                        ann
+                    </h1>
+                    <br/>
+                    <img width="280" height="280" class="board" src="./images/mongo/ann.png" />
+                </section>
+
+                <section>
+                    $$\begin{align*}
+                    J\left ( W \right ) = -\frac{1}{N}\cdot \left ( \sum_{i=1}^{N}\cdot \sum_{k=1}^{K}y_{k}^{\left ( i \right )}\cdot log( \hat{y}\cdot ( x^{(i)})_{k}) \\
+                    + (1-y_{k}^{(i)})\cdot log(1-\hat{y}(x^{(i)})_{k}) \right )
+                    \end{align*}$$
+                    <br/>
+                    $$ a^{(l)} = g(W^{(l)}\cdot a^{(l-1)}) $$
+                    <br/>
+                    $$ \delta ^{(L)} = a^{(L)} - y^{(i)} $$
+                </section>
+
+                <section>
+                    $$ \delta ^{(l)} = (W^{(l)})^{T}\cdot \delta ^{(l+1)}.*g^{'}(a^{(l)}) \\ s.t. \; g^{'}(a^{(l)})=a^{(l)}.*(1-a^{(l))}) $$
+                    <br/>
+                    $$\Delta ^{(l)} = \begin{bmatrix}
+                    0
+                    \end{bmatrix}$$
+                    <br/>
+                    $$ \Delta ^{(l)} := \Delta ^{(l)} + \delta ^{l+1}\cdot\left(a^{(l)}\right)^{T} $$
+                    <br/>
+                    $$ W^{(l)} := W^{(l)} - \left(\rho \cdot \Delta ^{(l)} + \Lambda \cdot \delta^{(l)}\right) $$
+                </section>
+
+                <section>
+                    <h1>
+                        <br/>
+                        regression
+                    </h1>
+                    <ul>
+                      <li>linear regression</li>
+                      <br/>
+                      <li>nonlinear regression</li>
+                      <br/>
+                      <li>ann</li>
+                   </ul>
+                </section>
+                
+                <section>
+                    <h1>
+                        linear regression
+                    </h1>
+                    <br/>
+                    <img width="280" height="280" class="board" src="./images/mongo/linearregression.png" />
+                </section>
+                
+                <section>
+                    $$Y = X^{T}\beta$$
+                    $$x_{0} = 1, \; X = \begin{bmatrix}
+                    x_{0}\\ 
+                    x_{1}\\ 
+                    \vdots\\ 
+                    x_{n}
+                    \end{bmatrix} \;
+                    \beta = \begin{bmatrix}
+                    \beta_{0}\\ 
+                    \beta_{1}\\ 
+                    \vdots\\ 
+                    \beta_{n}
+                    \end{bmatrix}$$
+                    <br/>
+                    $$\underset{\beta}{arg \; min}\frac{1}{2N}\sum_{i=0}^{N}(Y_{i}-\hat{Y_{i}})^{2}$$
+                </section>
+                
+                <section>
+                    $$\beta_{t+1} = \beta_{t} - \mu \bigtriangledown J$$
+                    $$\beta_{0, t+1} = \beta_{0, t} - \frac{\mu}{N}\sum_{i=0}^{N}(\hat{Y_{i}} - Y_{i})X_{0, t} \\
+                    \beta_{1, t+1} = \beta_{1, t} - \frac{\mu}{N}\sum_{i=0}^{N}(\hat{Y_{i}} - Y_{i})X_{0, t} \\
+                    \cdots \\
+                    \beta_{n, t+1} = \beta_{n, t} - \frac{\mu}{N}\sum_{i=0}^{N}(\hat{Y_{i}} - Y_{i})X_{0, t}$$
+                </section>
+
+                <section>
+                    <h1>
+                        nonlinear regression
+                    </h1>
+                    <br/>
+                    <img width="280" height="280" class="board" src="./images/mongo/nonlinear.png" />
+                </section>
+                
+                <section>
+                    <h3>
+                        method1
+                    </h3>
+                    <br/>
+                    $$Y = \beta_{0} + \beta_{1} x_{i} + \beta_{2} x_{i}^{2} + \cdots$$
+                    <br/>
+                    mapping the nonlinear problem into a higher dimension space treat as a linear problem
+                    <br/>
+                    <br/>
+                    <h3>
+                        method2
+                    </h3>
+                    just use ANN to fit the nonlinear data
+                    <br/>
+                </section>
+
+                <section>
+                    <h1>
+                        <br/>
+                        clustering
+                    </h1>
+                    <ul>
+                      <li>k-means</li>
+                      <br/>
+                      <li>som</li>
+                      <br/>
+                      <li>em</li>
+                    </ul>
+                </section>
+                
+                <section>
+                    <h1>
+                        k-means
+                    </h1>
+                    <br/>
+                    $$\underset{c, \mu}{arg \; min} J(c, \mu) = \sum_{i=1}^{m} \left \| x_{i} - \mu_{c^{i}} \right \|^{2}$$
+                    <br/>
+                    <img class="board" src="./images/mongo/kmeans.png" />
+                </section>
+
+                <section>
+                    <h1>
+                        som
+                    </h1>
+                    <br/>
+                    <img class="board" src="./images/mongo/som.png" />
+                </section>
+
+                <section>
+                    $$\underset{j}{find \; min}\left \| X - W_{j} \right \|^{2}, \; j \in \left \{1, 2, \cdots, n \right \}$$
+                    $$\left\{\begin{matrix}
+                    W_{j}(t+1) = W_{j}(t) + \Delta W_{j}(t) = W_{j}(t) + \alpha(X - W_{j}(t))  \\ 
+                    W_{j}(t+1) = W_{j}(t) \; j \neq j_{min}
+                    \end{matrix}\right.$$
+                    $$s.t. \; \alpha = f(t)$$
+                    so the learning rate decreased with the learning times grows up and loop the learning process until
+                    $$\alpha \approx 0 \; or \; \alpha \leq \alpha_{min}$$
+                    after each traing epoc should normalization each weight vector just make sure that
+                    $$\left \| W_{j} \right \|^{2}, \; j \in \left \{1, 2, \cdots, n \right \}$$
+                </section>
+                
+                <section>
+                    <h1>
+                        em
+                    </h1>
+                    <br/>
+                    <h3>
+                       Mixtures of Gaussians and The EM algorithm 
+                    </h3>
+                </section>
+
+                <section>
+                    $$\begin{align*}
+                    & z_{i} \sim Multinomial(\phi) \\
+                    & \phi_{j} \geq 0, \; \sum_{j=1}^{k}\phi_{j} = 1 \\
+                    & \phi_{j} = p(z_{i} = j)
+                    \end{align*}$$
+                    $$x_{i}|z_{i} = j \sim N(\mu_{j}, \Sigma_{j})$$
+                    $$\begin{align*}
+                    \imath(\phi, \mu, \Sigma) & = \sum_{i=1}^{m} log\;p(x_{i}; \phi, \mu, \Sigma) \\
+                    & = \sum_{i=1}^{m} log \sum_{z_{i}=1}^{k} p(x_{i}|z_{i}; \mu, \Sigma)p(z_{i}; \phi)
+                    \end{align*}$$
+                </section>
+
+                <section>
+                    <h3>E-step(expectation)</h3>
+                    <br/>
+                    $$w_{i}^{j} := P(z_{i} = j | x_{i}; \phi, \mu, \Sigma)$$
+                    <br/>
+                    <br/>
+                    $$\begin{align*}
+                    p(z_{i} = j | x_{i}; \phi, \mu, \Sigma) & = \\ 
+                    & \frac{p(x_{i}|z_{i}=j; \mu, \Sigma)p(z_{i} = j; \phi)}{\sum_{l=1}^{k}p(x_{i}|z_{i}=l; \mu, \Sigma)p(z_{i} = l; \phi)}
+                    \end{align*}$$
+                </section>
+
+                <section>
+                    <h3>M-step(maximization)</h3>
+                    <br/>
+                    $$\begin{align*}
+                    & \phi_{j} := \frac{1}{m}\sum_{i=1}^{m}w_{i}^{j} \\
+                    & \mu_{j} := \frac{\sum_{i=1}^{m}w_{i}^{j}x_{i}}{\sum_{i=1}^{m}w_{i}^{j}} \\
+                    & \Sigma_{j} := \frac{\sum_{i=1}^{m}w_{i}^{j}(x_{i}-\mu_{j})(x_{i}-\mu_{j})^{T}}{\sum_{i=1}^{m}w_{i}^{j}}
+                    \end{align*}$$
+                </section>
+
+                <section>
+                    <h2>
+                        <br/>
+                        recommendation models
+                    </h2>
+                    <ul>
+                      <li>content-based filtering</li>
+                      <br/>
+                      <li>collaborative filtering</li>
+                      </br>
+                      <li>svd</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <br/>
+                    <br/>
+                    <h3>
+                        content-based&nbsp;filtering
+                    </h3>
+                    <br/>
+                    <img class="board" src="./images/mongo/content.png" />
+                </section>
+
+                <section>
+                    $$\begin{align*}
+                    & \underset{\beta_{u}}{arg \; min} \left [ \sum_{i:r(i,u) = 1}\left ( (\beta_{u})^{T}X_{i} - Y_{u, i} \right )^{2} + \frac{\lambda}{2}\sum_{j=1}^{N}\beta_{u, j}^{2} \right ] \\
+                    \\
+                    & where \; r(i, u) = 1 \; if \; user \; has \; rated \; product 
+                    \; i \\
+                    & r(i, u) = 0 \; otherwise \\
+                    & \beta_{u, j} \; represent \; the \; Jth \; item \; of \; \beta_{u}
+                    \end{align*}$$
+                </section>
+
+                <section>
+                    <h1>generalization</h1>
+                    <br/>
+                    $$\underset{\beta_{1}, \beta_{2}, \cdots, \beta{u}}{arg \; min} \left [ \sum_{u=1}^{U}\sum_{i:r(i,u) = 1}\left ( (\beta_{u})^{T}X_{i} - Y_{u, i} \right )^{2} + \\
+                    \frac{\lambda}{2}\sum_{u=1}^{U}\sum_{j=1}^{N}\beta_{u, j}^{2} \right ]$$ 
+                </section>
+                
+                <section>
+                    <br/>
+                    <br/>
+                    <h3>
+                        collaborative&nbsp;filtering
+                    </h3>
+                    <br/>
+                    <img class="board" src="./images/mongo/collaborate.png" />
+                </section>
+
+                <section>
+                    <br/>
+                    <br/>
+                    <br/>
+                    $$\begin{align*}
+                    & \underset{X_{i}}{arg \; min} \left [ \sum_{u:r(i, u)=1}\left ( (\beta_{u})^{T}X_{i} - Y_{u, i} \right )^{2} + \frac{\lambda}{2}\sum_{j=1}^{N}X_{i, j}^{2} \right ] \\
+                    & X_{i, j} \; represent \; the \; Jth \; item \; of \; X_{i}
+                    \end{align*}$$
+                </section>
+        
+                <section>
+                    <h1>generalization</h1>
+                    <br/>
+                    $$\underset{X_{1}, X_{2}, \cdots, X_{n}}{arg \; min}\left [ \sum_{i=1}^{n}\sum_{u:r(i, u)=1}\left ( (\beta_{u})^{T}X_{i} - Y_{u, i} \right )^{2} + \\
+                    \frac{\lambda}{2}\sum_{i=1}^{n}\sum_{j=1}^{N}X_{i, j}^{2} \right ]$$
+                </section>
+
+                <section>
+                    <br/>
+                    $$r_{x, y} = \frac{\sum x_iy_i-n \bar{x} \bar{y}}{(n-1) s_x s_y}= \\
+                    \frac{n\sum x_iy_i-\sum x_i\sum y_i}
+                    {\sqrt{n\sum x_i^2-(\sum x_i)^2}~\sqrt{n\sum y_i^2-(\sum y_i)^2}}$$
+                    <br/>
+                    just calculate the similarity with the preferenced object and not preferenced object and recommend the object with high score
+                </section>
+
+                <section>
+                    <br/>
+                    <br/>
+                    <h3>
+                        svd
+                    </h3>
+                    <br/>
+                    <img class="board" src="./images/mongo/svd.png" />
+                </section>
+
+                <section>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h3>de-noising</h3>
+                    <br/>
+                    <br/>
+                    $$A_{m \times n} = U_{m \times m} \times S_{m \times n} \times V_{n \times n}^{T}$$
+                    <br/>
+                    $$A_{m \times n} = U_{m \times m} S_{m \times n} V_{n \times n}^{T} \approx \hat{A_{m \times n}} = U_{m \times k} S_{k \times k} V_{k \times n}^{T}$$
+                </section>
+
+                <section>
+                    <br/>
+                    <h3>reduce-dimension</h3>
+                    <br/>
+                    $$\begin{align*}
+                    \Sigma & = \frac{1}{m}\sum_{i=1}^{m} X_{i}X_{i}^{T} \\
+                    & = \frac{1}{m}X^{T}X
+                    \end{align*}$$
+                    $$for \; single \; sample \; \hat{X_{i}} = U_{reduce}^{T} X_{i}$$
+                    $$for \; sample \; space \; \hat{X} = X U_{reduce}$$
+                </section>
+
+                <section>
+                    <br/>
+                    <h3>incremental-svd</h3>
+                    <br/>
+                    $$for \; new \; user \; P = N_{u} \times V_{k} \times S_{k}^{-1}$$
+                    $$for \; new \; item \; P = N_{i}^{T} \times U_{k} \times S_{k}^{-1}$$
+                    <br/>
+                    <img class="board" src="./images/mongo/incrementsvd.png" />
+                </section>
+
+                <section>
+                    $$A_{approc} = U_{k} \times S_{k} \times V_{k}^{T}$$
+                    $$A_{predict} = U_{k} \times V_{k}^{T}$$
+                    $$E = \frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{m} I(i, j)(R_{ij} - p(U_{i}, V_{j}))^{2}$$
+                    $$\begin{align*}
+                    & -\frac{\partial E}{\partial U_{i}} = \sum_{j=1}^{m}I(i, j)((R_{ij} - p(U_{i}, V_{j}))V_{j}) \\
+                    & -\frac{\partial E}{\partial V_{j}} = \sum_{i=1}^{n}I(i, j)((R_{ij} - p(U_{i}, V_{j}))U_{i})
+                    \end{align*}$$
+                </section>
+
+                <section>
+                    <br/>
+                    <br/>
+                    <br/>
+                    $$\begin{align*}
+                    & E = \frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{m} I(i, j)(R_{ij} - p(U_{i}, V_{j}))^{2} + \\
+                    & \frac{k_{u}}{2}\sum_{i=1}^{n}\left \| U_{i} \right \|^{2} + \frac{k_{v}}{2}\sum_{j=1}^{m}\left \| V_{i} \right \|^{2}
+                    \end{align*}$$
+                </section>
+                    
+                <section>
+                    <br/>
+                    $$\begin{align*}
+                    & -\frac{\partial E}{\partial U_{i}} = \sum_{j=1}^{m}I(i, j)((R_{ij} - p(U_{i}, V_{j}))V_{j}) - k_{u}U_{i} \\
+                    & s.t. \; i=1,\cdots,n \\
+                    & -\frac{\partial E}{\partial V_{j}} = \sum_{i=1}^{n}I(i, j)((R_{ij} - p(U_{i}, V_{j}))U_{i}) - k_{v}V_{k} \\
+                    & j=1,\cdots,m
+                    \end{align*}$$
+                </section>
+
+                <section>
+                    <br/>
+                    $$\begin{align*}
+                    & U_{i} := U_{i} - \mu \frac{\partial E}{\partial U_{i}} \\
+                    & V_{j} := V_{j} - \mu \frac{\partial E}{\partial V_{j}}
+                    \end{align*}$$
+                    <br/>
+                    $$RMSE(P, R) = \sqrt{\frac{\sum_{i=1}^{n} \sum_{j=1}^{m}I(i, j)(R_{ij} - P_{ij})^{2}}{\sum_{i=1}^{n} \sum_{j=1}^{m} I(i, j)}}$$
+                </section>
+
+                <section>
+                    <br/>
+                    <h1>
+                        one more thing
+                    </h1>
+                    <br/>
+                    <br/>
+                    model is cheap, show me the feature
+                </section>
+
+                <section>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h1>Q & A</h1>
+                </section>
+        </div>
+
+        <script src="plugins/reveal.js/lib/js/head.min.js"></script>
+        <script src="plugins/reveal.js/js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'plugins/reveal.js/lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugins/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugins/reveal.js/lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugins/reveal.js/lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugins/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugins/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+        </script>
+
+    </body>
+</html>

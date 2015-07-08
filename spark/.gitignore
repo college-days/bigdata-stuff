@@ -1,7 +1,0 @@
-*.swp
-.*.swp
-.DS_Store
-*.iml
-.idea/
-target/
-news-spark/data

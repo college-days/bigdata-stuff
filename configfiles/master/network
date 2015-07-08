@@ -1,4 +1,0 @@
-NETWORKING=yes
-NETWORKING_IPV6=yes
-#HOSTNAME=cleantha.master
-HOSTNAME=work01
